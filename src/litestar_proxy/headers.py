@@ -45,10 +45,15 @@ class HeaderMaker:
             headers.update(scope)
         else:
             headers = MutableScopeHeaders(scope)
+
         parsed_headers = parser(headers)
-        new_headers = MutableScopeHeaders()
-        new_headers.update(parsed_headers)
-        self.headers = new_headers
+
+        if isinstance(parsed_headers, MutableScopeHeaders):
+            self.headers = parsed_headers
+        else:
+            new_headers = MutableScopeHeaders()
+            new_headers.update(parsed_headers)
+            self.headers = new_headers
 
     @overload
     def filter_keys(self, keys: Iterable[str]) -> Self: ...
