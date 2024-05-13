@@ -1,5 +1,6 @@
 from urllib.parse import urlunsplit
 
+from httpx import AsyncClient
 from httpx import Request as HttpxRequest
 from httpx import Response as HttpxResponse
 from litestar.response.base import ASGIResponse
@@ -8,6 +9,11 @@ from litestar.types import HTTPScope, Receive
 from litestar_proxy.config import HttpProxyConfig
 from litestar_proxy.headers import HeaderMaker
 from litestar_proxy.url import make_urls
+
+
+async def send_request(request: HttpxRequest) -> HttpxResponse:
+    async with AsyncClient() as client:
+        return await client.send(request)
 
 
 async def get_body_content(receive: Receive) -> bytes:
