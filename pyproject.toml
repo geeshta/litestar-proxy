@@ -26,3 +26,9 @@ requires = ["hatchling"]
 
 [tool.pdm]
 distribution = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.isort]
+profile = "black"
