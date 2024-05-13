@@ -1,5 +1,7 @@
 """HTTP Proxy middleware factory function"""
 
+from __future__ import annotations
+
 from litestar.enums import ScopeType
 from litestar.middleware import AbstractMiddleware
 from litestar.types import HTTPScope, Receive, Scopes, Send
@@ -9,7 +11,7 @@ from litestar_proxy._utils import create_proxy_request, create_response, send_re
 from litestar_proxy.config import HttpProxyConfig
 
 
-def create_http_proxy_middelware(config: HttpProxyConfig) -> type[AbstractMiddleware]:
+def create_http_proxy_middleware(config: HttpProxyConfig) -> type[AbstractMiddleware]:
     """
     The middleware factory function that takes a HttpProxy config and creates the configured
     ASGI middleware.
