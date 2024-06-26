@@ -1,6 +1,6 @@
 """Set of utilities for managing and resolving urls"""
 
-from urllib.parse import SplitResult, urlencode, urljoin, urlsplit
+from urllib.parse import SplitResult, urljoin, urlsplit, quote_plus
 
 from fast_query_parsers import parse_query_string
 from litestar.types import HTTPScope
@@ -61,6 +61,15 @@ def resolve_paths(request_path: str, target_path: str, how: PathStrategy) -> str
         case "append":
             return urljoin(target_path, request_path)
 
+def urlencode(params: list[tuple[str, str]]) -> str:
+    results = []
+    for param in params:
+        match param:
+            case (key, ""):
+                results.append(quote_plus(key))
+            case (key, value):
+                results.append(f"{quote_plus(key)}={quote_plus(value)}")
+    return "&".join(results)
 
 def resolve_queries(request_query: bytes, target_query: bytes, how: QueryStrategy) -> str:
     """
